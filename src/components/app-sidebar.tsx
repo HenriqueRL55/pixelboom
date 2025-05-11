@@ -1,4 +1,13 @@
-import { Calendar, Home, Inbox, Search, Settings, ChevronsUpDown, User } from "lucide-react"
+import { Link } from "react-router-dom";
+import { Separator } from "@/components/ui/separator"
+import {
+  Calendar,
+  Home,
+  Inbox,
+  Settings,
+  ChevronsUpDown,
+  User,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -8,79 +17,79 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 
 // Menu items
 const menuItems = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "Usuários",
-    url: "#",
+    url: "/usuarios",
     icon: Inbox,
   },
   {
     title: "Documentos",
-    url: "#",
+    url: "/documentos",
     icon: Calendar,
   },
-  {
-    title: "Geral",
-    url: "#",
-    icon: Search,
-  },
-]
+];
 
 // Settings items
 const settingsItems = [
   {
-    title: "Configurações",
-    url: "#",
+    title: "Geral",
+    url: "/configuracoes",
     icon: Settings,
   },
-]
+];
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-    <SidebarContent>
-      <div className=" border-gray-200 dark:border-gray-800">
-        <div className="border-b flex items-center justify-between p-5">
-          <Button size="default" variant="default" className="justify-start gap-2">
-            <div className="flex items-center gap-2">
-              <span className="font-medium">Logo</span>
-            </div>
-          </Button>
-        </div>
-        
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-2">
-            <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
-              <User className="w-5 h-5" />
-            </div>
-            <span className="font-medium">Filial A</span>
+    <Sidebar >
+      <SidebarContent>
+        <div className="border-gray-200 dark:border-gray-800 ">
+          <div className="flex items-center justify-between p-5">
+            <Button
+              size="default"
+              variant="default"
+              className="justify-start gap-2"
+            >
+              <div className="flex items-center gap-2">
+                <span className="font-medium font-sans">Logo</span>
+              </div>
+            </Button>
           </div>
-          <ChevronsUpDown className="w-4 h-4 text-gray-500" />
+          <Separator />
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-2 ">
+              <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
+                <User className="w-5 h-5" />
+              </div>
+              <span className="font-medium font-sans">Filial A</span>
+            </div>
+            <ChevronsUpDown className="w-4 h-4 text-gray-500" />
+          </div>
         </div>
-      </div>
 
         {/* First Group - Menu */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+        <SidebarGroup className="p-4">
+          <SidebarGroupLabel className="font-sans">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                      <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-zinc-500">
+                        {item.title}
+                      </span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -89,17 +98,21 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Second Group - Configurações */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Configurações</SidebarGroupLabel>
+        <SidebarGroup className="p-4">
+          <SidebarGroupLabel className="font-sans">
+            Configurações
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {settingsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                      <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-zinc-500">
+                        {item.title}
+                      </span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -108,5 +121,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
