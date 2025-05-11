@@ -1,11 +1,19 @@
-import { Button } from "@/components/ui/button"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+import Menu from "./components/menu"
 
-function App() {
+export default function App({ children }: { children?: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
-    </div>
+    <SidebarProvider>
+      <div className="flex h-screen">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col">
+          <Menu />
+          <main className="flex-1 overflow-auto">
+            {children}
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
   )
 }
-
-export default App
