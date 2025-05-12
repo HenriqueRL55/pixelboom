@@ -3,30 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  MoreVertical,
   Search,
-  User,
+  User as UserIcon,
   Calendar,
   Clock,
   Tag,
   ListFilter,
+  Trash2,
 } from "lucide-react";
 import { AddUserSheet } from "@/components/AddUser/addUser";
+import { EditUserSheet } from "@/components/EditUser/editUser";
 import { useState } from "react";
+import { toast } from "sonner";
+import type { UserInterface } from "@/types";
 
-interface User {
-  initials: string;
-  name: string;
-  age: number;
-  gender: string;
-  date: string;
-  sessionTime: string;
-  type: string;
-  status: string;
-}
-
-const initialUsers = [
+const initialUsers: UserInterface[] = [
   {
+    id: "1",
     initials: "JG",
     name: "José Ricardo Gomes",
     age: 51,
@@ -35,8 +28,14 @@ const initialUsers = [
     sessionTime: "38m22s",
     type: "Usuário padrão",
     status: "Ativo",
+    email: "jose.gomes@example.com",
+    telefone: "(11) 99999-9999",
+    whatsapp: true,
+    cpf: "123.456.789-00",
+    rg: "12.345.678-9"
   },
   {
+    id: "2",
     initials: "HS",
     name: "Helena Soares",
     age: 46,
@@ -45,112 +44,86 @@ const initialUsers = [
     sessionTime: "38m22s",
     type: "Usuário padrão",
     status: "Inativo",
-  },
-
-  {
-    initials: "MC",
-    name: "Maria da Conceição",
-    age: 32,
-    gender: "Mulher",
-    date: "21/03/2025 - 09:15am",
-    sessionTime: "45m10s",
-    type: "Usuário padrão",
-    status: "Ativo",
-  },
-  {
-    initials: "PA",
-    name: "Pedro Almeida",
-    age: 28,
-    gender: "Homem",
-    date: "20/03/2025 - 02:30pm",
-    sessionTime: "25m45s",
-    type: "Usuário padrão",
-    status: "Ativo",
-  },
-  {
-    initials: "RA",
-    name: "Ricardo Andrade",
-    age: 40,
-    gender: "Homem",
-    date: "19/03/2025 - 11:45am",
-    sessionTime: "50m00s",
-    type: "Usuário padrão",
-    status: "Inativo",
-  },
-  {
-    initials: "FS",
-    name: "Fernanda Silva",
-    age: 35,
-    gender: "Mulher",
-    date: "18/03/2025 - 04:20pm",
-    sessionTime: "30m15s",
-    type: "Usuário padrão",
-    status: "Ativo",
-  },
-  {
-    initials: "LC",
-    name: "Luiz Costa",
-    age: 29,
-    gender: "Homem",
-    date: "17/03/2025 - 10:00am",
-    sessionTime: "42m30s",
-    type: "Usuário padrão",
-    status: "Ativo",
-  },
-  {
-    initials: "AM",
-    name: "Ana Maria",
-    age: 45,
-    gender: "Mulher",
-    date: "16/03/2025 - 03:15pm",
-    sessionTime: "28m45s",
-    type: "Usuário padrão",
-    status: "Inativo",
-  },
-  {
-    initials: "JP",
-    name: "João Pereira",
-    age: 38,
-    gender: "Homem",
-    date: "15/03/2025 - 01:30pm",
-    sessionTime: "35m20s",
-    type: "Usuário padrão",
-    status: "Ativo",
-  },
-  {
-    initials: "CS",
-    name: "Carla Souza",
-    age: 31,
-    gender: "Mulher",
-    date: "14/03/2025 - 09:45am",
-    sessionTime: "47m10s",
-    type: "Usuário padrão",
-    status: "Ativo",
-  },
+    email: "helena.soares@example.com",
+    telefone: "(11) 98888-8888",
+    whatsapp: false,
+    cpf: "987.654.321-00",
+    rg: "98.765.432-1"
+  }
 ];
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>(initialUsers);
+  const [users, setUsers] = useState<UserInterface[]>(initialUsers);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const handleAddUser = (newUser: User) => {
-    setUsers([...users, newUser]);
+  const handleAddUser = (newUser: Omit<UserInterface, 'id'>) => {
+    const userWithId: UserInterface = {
+      ...newUser,
+      id: Date.now().toString(),
+    };
+    setUsers([...users, userWithId]);
+  };
+
+  const handleEditUser = (updatedUser: UserInterface) => {
+    setUsers(users.map(user => 
+      user.id === updatedUser.id ? updatedUser : user
+    ));
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    const confirmDelete = () => {
+      setUsers(users.filter(user => user.id !== userId));
+
+      toast.success("Usuário excluído com sucesso!", {
+        icon: null,
+        action: {
+          label: "Fechar",
+          onClick: () => {},
+        },
+      });
+    };
+
+    toast.custom((t) => (
+      <div className="bg-white rounded-lg shadow-lg p-4 border">
+        <div className="flex flex-col space-y-4">
+          <p className="font-medium">Confirmar exclusão</p>
+          <p>Tem certeza que deseja excluir este usuário?</p>
+          <div className="flex justify-end space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => toast.dismiss(t)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => {
+                confirmDelete();
+                toast.dismiss(t);
+              }}
+            >
+              Excluir
+            </Button>
+          </div>
+        </div>
+      </div>
+    ));
   };
 
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calcular páginas
   const totalItems = filteredUsers.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentUsers = filteredUsers.slice(startIndex, endIndex);
 
-  // Gerar números de página para exibição
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
@@ -202,9 +175,7 @@ export default function UsersPage() {
     }
   };
 
-  const handleItemsPerPageChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1);
   };
@@ -248,7 +219,7 @@ export default function UsersPage() {
         </Card>
       </div>
 
-      {/* Campo de busca com ícone de filtro */}
+      {/* Busca e filtros */}
       <div className="flex gap-2 items-center w-full">
         <div className="relative flex-1 w-full">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -256,7 +227,7 @@ export default function UsersPage() {
           </div>
           <Input
             placeholder="Buscar..."
-            className="pl-10 "
+            className="pl-10"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -264,24 +235,15 @@ export default function UsersPage() {
             }}
           />
         </div>
-
-        {/* Botão de filtro */}
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full"
-          onClick={() => {
-            /* função de filtro */
-          }}
-        >
+        <Button variant="outline" size="icon" className="rounded-full">
           <ListFilter className="w-4 h-4 text-gray-400" />
         </Button>
       </div>
 
       {/* Lista de usuários */}
       <div className="space-y-2 overflow-y-auto max-h-[400px] pr-2">
-        {currentUsers.map((user, index) => (
-          <Card key={index}>
+        {currentUsers.map((user) => (
+          <Card key={user.id}>
             <CardContent className="p-1.5 flex items-center justify-between">
               <div className="flex pl-5 gap-4 items-center">
                 <div className="bg-muted rounded-full h-10 w-10 flex items-center justify-center font-semibold">
@@ -291,13 +253,12 @@ export default function UsersPage() {
                   <div className="flex items-center gap-2">
                     <p className="font-medium">{user.name}</p>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <User className="w-3 h-3" />
+                      <UserIcon className="w-3 h-3" />
                       <span>
                         {user.age} anos, {user.gender}
                       </span>
                     </div>
                   </div>
-
                   <div className="text-sm text-muted-foreground flex items-center">
                     <div className="flex items-center gap-1 pl-2 ml-2 first:border-0 first:pl-0 first:ml-0">
                       <Calendar className="w-3 h-3" />
@@ -315,13 +276,19 @@ export default function UsersPage() {
                 </div>
               </div>
               <div className="flex gap-2 items-center">
-                <Badge
-                  variant={user.status === "Ativo" ? "default" : "secondary"}
-                >
+                <Badge variant={user.status === "Ativo" ? "default" : "secondary"}>
                   {user.status}
                 </Badge>
-                <Button variant="ghost" size="icon">
-                  <MoreVertical className="w-4 h-4" />
+                <EditUserSheet 
+                  user={user} 
+                  onEditUser={handleEditUser} 
+                />
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => handleDeleteUser(user.id)}
+                >
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
             </CardContent>
@@ -332,8 +299,7 @@ export default function UsersPage() {
       {/* Paginação */}
       <div className="flex justify-between items-center pt-4 text-sm text-muted-foreground">
         <div>
-          {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems}{" "}
-          itens
+          {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems} itens
         </div>
         <div className="flex items-center gap-2">
           <Button

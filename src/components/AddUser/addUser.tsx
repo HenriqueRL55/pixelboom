@@ -12,21 +12,12 @@ import { Switch } from "@/components/ui/switch";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-
-interface User {
-  initials: string;
-  name: string;
-  age: number;
-  gender: string;
-  date: string;
-  sessionTime: string;
-  type: string;
-  status: string;
-}
+import type { UserInterface } from "@/types";
 
 interface AddUserSheetProps {
-  onAddUser: (newUser: User) => void;
+  onAddUser: (newUser: Omit<UserInterface, 'id'>) => void;
 }
+
 
 export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
   const [open, setOpen] = useState(false);
@@ -52,27 +43,29 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
       .join("")
       .toUpperCase();
 
-    const newUser: User = {
+    const newUser: Omit<UserInterface, 'id'> = {
       initials,
       name: formData.name,
       age: formData.age,
       gender: formData.gender,
-      date:
-        new Date().toLocaleDateString("pt-BR") +
-        " - " +
-        new Date().toLocaleTimeString("pt-BR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+      date: new Date().toLocaleDateString("pt-BR") + " - " + 
+            new Date().toLocaleTimeString("pt-BR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
       sessionTime: "0m00s",
       type: "Usuário padrão",
       status: status ? "Ativo" : "Inativo",
+      email: formData.email,
+      telefone: formData.telefone,
+      whatsapp: formData.whatsapp,
+      cpf: formData.cpf,
+      rg: formData.rg
     };
 
     onAddUser(newUser);
 
     toast.success("Usuário adicionado com sucesso!", {
-      icon: null,
       action: {
         label: "Fechar",
         onClick: () => {},
