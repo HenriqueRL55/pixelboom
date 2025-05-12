@@ -2,7 +2,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { MoreVertical, Search, User, Calendar, Clock, Tag } from "lucide-react";
+import {
+  MoreVertical,
+  Search,
+  User,
+  Calendar,
+  Clock,
+  Tag,
+  ListFilter,
+} from "lucide-react";
 import { AddUserSheet } from "@/components/AddUser/addUser";
 import { useState } from "react";
 
@@ -46,7 +54,7 @@ const initialUsers = [
     gender: "Mulher",
     date: "21/03/2025 - 09:15am",
     sessionTime: "45m10s",
-    type: "Usuário premium",
+    type: "Usuário padrão",
     status: "Ativo",
   },
   {
@@ -66,7 +74,7 @@ const initialUsers = [
     gender: "Homem",
     date: "19/03/2025 - 11:45am",
     sessionTime: "50m00s",
-    type: "Usuário premium",
+    type: "Usuário padrão",
     status: "Inativo",
   },
   {
@@ -96,7 +104,7 @@ const initialUsers = [
     gender: "Mulher",
     date: "16/03/2025 - 03:15pm",
     sessionTime: "28m45s",
-    type: "Usuário premium",
+    type: "Usuário padrão",
     status: "Inativo",
   },
   {
@@ -116,7 +124,7 @@ const initialUsers = [
     gender: "Mulher",
     date: "14/03/2025 - 09:45am",
     sessionTime: "47m10s",
-    type: "Usuário premium",
+    type: "Usuário padrão",
     status: "Ativo",
   },
 ];
@@ -131,7 +139,7 @@ export default function UsersPage() {
     setUsers([...users, newUser]);
   };
 
-  const filteredUsers = users.filter(user =>
+  const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -146,7 +154,7 @@ export default function UsersPage() {
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -155,48 +163,50 @@ export default function UsersPage() {
       const half = Math.floor(maxVisiblePages / 2);
       let start = currentPage - half;
       let end = currentPage + half;
-      
+
       if (start < 1) {
         start = 1;
         end = maxVisiblePages;
       }
-      
+
       if (end > totalPages) {
         end = totalPages;
         start = totalPages - maxVisiblePages + 1;
       }
-      
+
       if (start > 1) {
         pages.push(1);
         if (start > 2) {
-          pages.push('...');
+          pages.push("...");
         }
       }
-      
+
       for (let i = start; i <= end; i++) {
         pages.push(i);
       }
-      
+
       if (end < totalPages) {
         if (end < totalPages - 1) {
-          pages.push('...');
+          pages.push("...");
         }
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
   const handlePageChange = (page: number | string) => {
-    if (typeof page === 'number') {
+    if (typeof page === "number") {
       setCurrentPage(page);
     }
   };
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1); // Resetar para a primeira página ao mudar itens por página
+    setCurrentPage(1);
   };
 
   return (
@@ -223,30 +233,48 @@ export default function UsersPage() {
         <Card>
           <CardContent className="p-4">
             <p className="text-sm text-muted-foreground">Ativos</p>
-            <p className="text-2xl font-semibold">{users.filter(u => u.status === "Ativo").length}</p>
+            <p className="text-2xl font-semibold">
+              {users.filter((u) => u.status === "Ativo").length}
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
             <p className="text-sm text-muted-foreground">Inativos</p>
-            <p className="text-2xl font-semibold">{users.filter(u => u.status === "Inativo").length}</p>
+            <p className="text-2xl font-semibold">
+              {users.filter((u) => u.status === "Inativo").length}
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Campo de busca */}
-      <div className="flex gap-2 items-center">
-        <Input 
-          placeholder="Buscar..." 
-          className="max-w-md" 
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1); 
+      {/* Campo de busca com ícone de filtro */}
+      <div className="flex gap-2 items-center w-full">
+        <div className="relative flex-1 w-full">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <Search className="w-4 h-4 text-gray-400" />
+          </div>
+          <Input
+            placeholder="Buscar..."
+            className="pl-10 "
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+
+        {/* Botão de filtro */}
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full"
+          onClick={() => {
+            /* função de filtro */
           }}
-        />
-        <Button variant="outline" size="icon">
-          <Search className="w-4 h-4" />
+        >
+          <ListFilter className="w-4 h-4 text-gray-400" />
         </Button>
       </div>
 
@@ -304,11 +332,12 @@ export default function UsersPage() {
       {/* Paginação */}
       <div className="flex justify-between items-center pt-4 text-sm text-muted-foreground">
         <div>
-          {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems} itens
+          {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems}{" "}
+          itens
         </div>
         <div className="flex items-center gap-2">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="sm"
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(currentPage - 1)}
@@ -316,23 +345,25 @@ export default function UsersPage() {
             Anterior
           </Button>
           <div className="flex gap-1">
-            {getPageNumbers().map((page, index) => (
-              typeof page === 'number' ? (
-                <Button 
+            {getPageNumbers().map((page, index) =>
+              typeof page === "number" ? (
+                <Button
                   key={index}
-                  size="sm" 
+                  size="sm"
                   variant={currentPage === page ? "outline" : "ghost"}
                   onClick={() => handlePageChange(page)}
                 >
                   {page}
                 </Button>
               ) : (
-                <span key={index} className="px-2 flex items-center">...</span>
+                <span key={index} className="px-2 flex items-center">
+                  ...
+                </span>
               )
-            ))}
+            )}
           </div>
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="sm"
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage(currentPage + 1)}
@@ -342,7 +373,7 @@ export default function UsersPage() {
         </div>
         <div className="flex items-center gap-1">
           <span>Itens por página</span>
-          <select 
+          <select
             className="border rounded px-2 py-1 text-sm"
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
