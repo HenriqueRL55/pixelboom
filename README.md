@@ -6,7 +6,7 @@ Este projeto é a implementação do teste técnico para a vaga de Frontend Deve
 
 ## 🔗 Links
 
-- **Deploy:** [https://pixelboom-iota.vercel.app/] 
+- **Deploy:** [https://pixelboom-iota.vercel.app/](https://pixelboom-iota.vercel.app/)  
 - **Repositório:** [https://github.com/HenriqueRL55/pixelboom](https://github.com/HenriqueRL55/pixelboom)  
 - **Design no Figma:** [Figma - Teste Frontend Pixelboom](https://www.figma.com/design/TOALrzlKsyYKDhWIIvysNI/Teste-Frontend-Developer?node-id=0-1&p=f&t=zOhH8xCc9PoFIDQK-0)
 
@@ -63,3 +63,7 @@ npm run dev
 - Durante a implementação, foi observado que alguns campos necessários para um melhor funcionamento do sistema, como campos na listagem de usuários, não estavam presentes no modal do Figma.
 
 - Como o teste solicitava fidelidade ao design, optou-se por não implementar essas funcionalidades adicionais para manter a integridade com o layout original fornecido.
+
+#👨🏻‍💻 Tempo
+
+- Foi destinado para o desenvolvimento desse teste aproximadamente 10 horas totais.
