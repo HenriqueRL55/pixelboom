@@ -5,10 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import './index.css'
 import App from './App.tsx'
-import DashboardPage from './components/DashboardPage/dashboardPage.tsx'
-import UsersPage from './components/UsersPage/userPage.tsx'
-import DocumentsPage from './components/DocumentsPage/documentsPage.tsx'
-import SettingsPage from './components/SettingsPage/settingsPage.tsx'
+import DashboardPage from './Pages/DashboardPage/dashboardPage.tsx'
+import UsersPage from './Pages/UsersPage/userPage.tsx'
+import DocumentsPage from './Pages/DocumentsPage/documentsPage.tsx'
+import SettingsPage from './Pages/SettingsPage/settingsPage.tsx'
 import { Navigate } from 'react-router-dom';
 
 const router = createBrowserRouter([

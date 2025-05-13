@@ -14,3 +14,4 @@ export interface UserInterface {
     cpf?: string;
     rg?: string;
   }
+  

@@ -1,5 +1,6 @@
-import { SidebarTrigger } from "./ui/sidebar"
-import { HelpCircle, Bell, User } from "lucide-react"
+import { SidebarTrigger } from "../ui/sidebar";
+import { HelpCircle, Bell } from "lucide-react";
+import ProfileIcon from "@/assets/profile.png";
 
 export default function Menu() {
   return (
@@ -12,10 +13,14 @@ export default function Menu() {
         <button className="p-2 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
           <Bell className="w-5 h-5" />
         </button>
-        <button className="p-2 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
-          <User className="w-5 h-5" />
+        <button className="w-9 h-9 p-0 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <img
+            src={ProfileIcon}
+            alt="Profile"
+            className="w-full h-full rounded-full object-cover"
+          />
         </button>
       </div>
     </div>
-  )
+  );
 }

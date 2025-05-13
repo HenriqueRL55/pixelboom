@@ -1,8 +1,7 @@
-// App.tsx
 import { Outlet } from "react-router-dom"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import Menu from "./components/menu"
+import { AppSidebar } from "@/components/SideBar/app-sidebar"
+import Menu from "./components/MenuHeader/menu"
 import { Toaster } from "sonner"
 
 export default function App() {
@@ -22,7 +21,7 @@ export default function App() {
         position="bottom-right"
         richColors
         toastOptions={{
-          duration: 5000,
+          duration: 4000,
           style: {
             background: '#fff',
             color: '#000',

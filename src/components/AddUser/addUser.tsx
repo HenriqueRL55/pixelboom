@@ -202,8 +202,6 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
           </div>
 
           <div className="flex items-center space-x-2 mb-5">
-            {" "}
-            {/* Adicionado mb-5 (20px) */}
             <input
               type="checkbox"
               id="whatsapp"
@@ -219,8 +217,6 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
             </Label>
           </div>
           <div className="flex gap-4 mb-5">
-            {" "}
-            {/* gap-4 (16px) já estava correto, adicionado mb-5 (20px) */}
             <div className="flex-1">
               <Label
                 htmlFor="cpf"
