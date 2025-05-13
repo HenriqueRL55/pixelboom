@@ -26,7 +26,7 @@ Este projeto é a implementação do teste técnico para a vaga de Frontend Deve
 
 1. Clone o repositório:
    ```bash
-git clone https://github.com/HenriqueRL55/pixelboom.git
+    git clone https://github.com/HenriqueRL55/pixelboom.git
 
 2. Acesse a pasta do projeto:
      ```bash
