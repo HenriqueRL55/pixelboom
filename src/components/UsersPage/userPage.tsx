@@ -9,12 +9,10 @@ import {
   Clock,
   Tag,
   ListFilter,
-  Trash2,
 } from "lucide-react";
 import { AddUserSheet } from "@/components/AddUser/addUser";
 import { EditUserSheet } from "@/components/EditUser/editUser";
 import { useState } from "react";
-import { toast } from "sonner";
 import type { UserInterface } from "@/types";
 
 const initialUsers: UserInterface[] = [
@@ -73,99 +71,7 @@ export default function UsersPage() {
   };
 
   const handleDeleteUser = (userId: string) => {
-    const confirmDelete = () => {
-      setUsers(users.filter((user) => user.id !== userId));
-      toast.success("Usuário excluído com sucesso!", {
-        icon: null,
-        style: {
-          width: "364px",
-          height: "88px",
-          borderRadius: "8px",
-          padding: "12px 16px",
-          gap: "16px",
-          border: "1px solid #E4E4E7",
-          background: "#FFFFFF",
-          boxShadow: "0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.10)",
-          fontFamily: "var(--font-sans)",
-          fontWeight: "normal",
-          fontSize: "14px",
-          lineHeight: "20px",
-          letterSpacing: "-0.4px",
-          color: "#18181B"
-        },
-        actionButtonStyle: {
-          width: "76px",
-          height: "40px",
-          borderRadius: "9999px",
-          padding: "8px 16px",
-          gap: "8px",
-          border: "1px solid #E4E4E7",
-          background: "#FFFFFF",
-          fontFamily: "var(--font-sans)",
-          fontWeight: "500",
-          fontSize: "14px",
-          lineHeight: "20px",
-          letterSpacing: "-0.4px",
-          color: "#18181B"
-        }
-      });
-    };
-  
-    toast.custom((t) => (
-      <div 
-        className="bg-white rounded-md p-6 border border-[#E4E4E7] w-[364px]"
-        style={{
-          boxShadow: "0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.10)"
-        }}
-      >
-        <div className="flex flex-col space-y-4">
-          <p className="font-sans font-medium text-sm leading-[100%] tracking-[-0.4px] text-[#18181B]">
-            Confirmar exclusão
-          </p>
-          <p className="font-sans font-normal text-sm leading-5 tracking-[-0.4px] text-[#71717A]">
-            Tem certeza que deseja excluir este usuário?
-          </p>
-          <div className="flex justify-end space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => toast.dismiss(t)}
-              className="h-10 rounded-full gap-2 py-2 px-4 border border-[#E4E4E7]"
-              style={{
-                width: "89px",
-                fontFamily: "var(--font-sans)",
-                fontWeight: "500",
-                fontSize: "14px",
-                lineHeight: "20px",
-                letterSpacing: "-0.4px",
-                color: "#18181B"
-              }}
-            >
-              Cancelar
-            </Button>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => {
-                confirmDelete();
-                toast.dismiss(t);
-              }}
-              className="h-10 rounded-full gap-2 py-2 px-4"
-              style={{
-                width: "89px",
-                fontFamily: "var(--font-sans)",
-                fontWeight: "500",
-                fontSize: "14px",
-                lineHeight: "20px",
-                letterSpacing: "-0.4px"
-              }}
-            >
-              Excluir
-            </Button>
-          </div>
-        </div>
-      </div>
-    ));
+    setUsers(users.filter((user) => user.id !== userId));
   };
 
   const filteredUsers = users.filter((user) =>
@@ -355,14 +261,11 @@ export default function UsersPage() {
                 >
                   {user.status}
                 </Badge>
-                <EditUserSheet user={user} onEditUser={handleEditUser} />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDeleteUser(user.id)}
-                >
-                  <Trash2 className="w-[1rem] h-[1rem]" />
-                </Button>
+                <EditUserSheet
+                  user={user}
+                  onEditUser={handleEditUser}
+                  onDeleteUser={handleDeleteUser}
+                />
               </div>
             </CardContent>
           </Card>

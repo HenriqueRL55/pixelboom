@@ -105,14 +105,12 @@ export function AppSidebar() {
         {/* Grupo: Menu */}
         <SidebarGroup className="p-[1rem]">
           {" "}
-          {/* 16px */}
           <SidebarGroupLabel className="w-[12rem] h-[1rem] font-sans font-normal text-[0.75rem] leading-[1rem] tracking-[-0.025em] text-[#3F3F46] mb-[0.375rem]">
             Menu
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="flex flex-col gap-[0.375rem]">
               {" "}
-              {/* 6px */}
               {menuItems.map((item) => {
                 const isActive = location.pathname.startsWith(item.url);
                 return (

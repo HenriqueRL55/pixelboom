@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, X } from "lucide-react";
+import { X, EllipsisVertical, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import type { UserInterface } from "@/types";
@@ -17,9 +17,14 @@ import type { UserInterface } from "@/types";
 interface EditUserSheetProps {
   user: UserInterface;
   onEditUser: (updatedUser: UserInterface) => void;
+  onDeleteUser: (userId: string) => void;
 }
 
-export function EditUserSheet({ user, onEditUser }: EditUserSheetProps) {
+export function EditUserSheet({
+  user,
+  onEditUser,
+  onDeleteUser,
+}: EditUserSheetProps) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(user.status === "Ativo");
   const [formData, setFormData] = useState({
@@ -57,7 +62,7 @@ export function EditUserSheet({ user, onEditUser }: EditUserSheetProps) {
       telefone: formData.telefone,
       whatsapp: formData.whatsapp,
       cpf: formData.cpf,
-      rg: formData.rg
+      rg: formData.rg,
     };
 
     onEditUser(updatedUser);
@@ -105,6 +110,106 @@ export function EditUserSheet({ user, onEditUser }: EditUserSheetProps) {
     setOpen(false);
   };
 
+  const handleDelete = () => {
+    setOpen(false);
+    toast.custom((t) => (
+      <div
+        className="bg-white rounded-md p-6 border border-[#E4E4E7] w-[364px]"
+        style={{
+          boxShadow:
+            "0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.10)",
+        }}
+      >
+        <div className="flex flex-col space-y-4">
+          <p className="font-sans font-medium text-sm leading-[100%] tracking-[-0.4px] text-[#18181B]">
+            Confirmar exclusão
+          </p>
+          <p className="font-sans font-normal text-sm leading-5 tracking-[-0.4px] text-[#71717A]">
+            Tem certeza que deseja excluir este usuário?
+          </p>
+          <div className="flex justify-end space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => toast.dismiss(t)}
+              className="h-10 rounded-full gap-2 py-2 px-4 border border-[#E4E4E7]"
+              style={{
+                width: "89px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: "500",
+                fontSize: "14px",
+                lineHeight: "20px",
+                letterSpacing: "-0.4px",
+                color: "#18181B",
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => {
+                onDeleteUser(user.id);
+                setOpen(false);
+                toast.dismiss(t);
+                toast.success("Usuário excluído com sucesso!", {
+                  action: {
+                    label: "Fechar",
+                    onClick: () => {},
+                  },
+                  icon: null,
+                  style: {
+                    width: "364px",
+                    height: "88px",
+                    borderRadius: "8px",
+                    padding: "12px 16px",
+                    gap: "16px",
+                    border: "1px solid #E4E4E7",
+                    background: "#FFFFFF",
+                    boxShadow:
+                      "0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.10)",
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: "normal",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    letterSpacing: "-0.4px",
+                    color: "#18181B",
+                  },
+                  actionButtonStyle: {
+                    width: "76px",
+                    height: "40px",
+                    borderRadius: "9999px",
+                    padding: "8px 16px",
+                    gap: "8px",
+                    border: "1px solid #E4E4E7",
+                    background: "#FFFFFF",
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: "500",
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    letterSpacing: "-0.4px",
+                    color: "#18181B",
+                  },
+                });
+              }}
+              className="h-10 rounded-full gap-2 py-2 px-4"
+              style={{
+                width: "89px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: "500",
+                fontSize: "14px",
+                lineHeight: "20px",
+                letterSpacing: "-0.4px",
+              }}
+            >
+              Excluir
+            </Button>
+          </div>
+        </div>
+      </div>
+    ));
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -117,7 +222,7 @@ export function EditUserSheet({ user, onEditUser }: EditUserSheetProps) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon">
-          <Pencil className="w-4 h-4" />
+          <EllipsisVertical className="w-4 h-4" />
         </Button>
       </SheetTrigger>
       <SheetContent className="w-[800px] p-10 flex flex-col h-full">
@@ -252,25 +357,38 @@ export function EditUserSheet({ user, onEditUser }: EditUserSheetProps) {
             <Switch checked={status} onCheckedChange={setStatus} />
           </div>
 
-          <div className="flex justify-end gap-2 pt-4 mt-auto">
+          <div className="flex justify-between items-center pt-4 mt-auto">
             <Button
               type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-              className="h-10 w-[89px] rounded-full gap-2 py-2 px-4 border border-[#E4E4E7] bg-white hover:bg-gray-50"
+              variant="destructive"
+              onClick={handleDelete}
+              className="h-10 rounded-full gap-2 py-2 px-4 flex items-center"
             >
-              <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-[#18181B]">
-                Cancelar
+              <Trash className="w-4 h-4" />
+              <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-white">
+                Excluir
               </span>
             </Button>
-            <Button
-              type="submit"
-              className="h-10 w-[120px] rounded-full gap-2 py-2 px-4 bg-[#102822] hover:bg-[#102822]/90"
-            >
-              <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-[#FAFAFA]">
-                Salvar alterações
-              </span>
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+                className="h-10 w-[89px] rounded-full gap-2 py-2 px-4 border border-[#E4E4E7] bg-white hover:bg-gray-50"
+              >
+                <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-[#18181B]">
+                  Cancelar
+                </span>
+              </Button>
+              <Button
+                type="submit"
+                className="h-10 w-[120px] rounded-full gap-2 py-2 px-4 bg-[#102822] hover:bg-[#102822]/90"
+              >
+                <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-[#FAFAFA]">
+                  Salvar alterações
+                </span>
+              </Button>
+            </div>
           </div>
         </form>
       </SheetContent>
