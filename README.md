@@ -24,18 +24,21 @@ Este projeto é a implementação do teste técnico para a vaga de Frontend Deve
 
 ## 📦 Como rodar o projeto localmente
 
-```bash
-# Clone o repositório
+1. Clone o repositório:
+   ```bash
 git clone https://github.com/HenriqueRL55/pixelboom.git
 
-# Acesse a pasta do projeto
-cd pixelboom
+2. Acesse a pasta do projeto:
+     ```bash
+    cd pixelboom
 
-# Instale as dependências
-npm install
+3. Instale as dependências do projeto:
+     ```bash
+    npm install
 
-# Inicie o servidor de desenvolvimento
-npm run dev
+4. Inicie o servidor de desenvolvimento:
+    ```bash
+    npm run dev
 
 
 ## ✅ Funcionalidades implementadas
@@ -43,8 +46,11 @@ npm run dev
 #🗂️ Tela de Listagem
 
 - Exibição de lista de usuários com nome, email e cargo.
+- Filtro de Busca.
+- Cards Totalizadores se adaptam de acordo com usuários inseridos ou editados.
 - Botão de adicionar novo usuário com abertura de modal.
 - Botão de editar o usuário com abertura de modal.
+- Totalmente Responsivo.
 
 #✏️ Modal de Inclusão/Edição
 
@@ -58,12 +64,12 @@ npm run dev
 - Utilização exclusiva do shadcn/ui para a interface.
 - Estilização feita com Tailwind CSS, sem bibliotecas externas.
 
-#⚠️ Observações
+## ⚠️ Observações
 
 - Durante a implementação, foi observado que alguns campos necessários para um melhor funcionamento do sistema, como campos na listagem de usuários, não estavam presentes no modal do Figma.
 
 - Como o teste solicitava fidelidade ao design, optou-se por não implementar essas funcionalidades adicionais para manter a integridade com o layout original fornecido.
 
-#👨🏻‍💻 Tempo
+## 👨🏻‍💻 Tempo de Desenvolvimento 
 
 - Foi destinado para o desenvolvimento desse teste aproximadamente 10 horas totais.
