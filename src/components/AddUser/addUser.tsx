@@ -13,7 +13,7 @@ import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import type { UserInterface } from "@/types";
-
+import { maskCPF, maskRG } from "@/utils/maskUtils";
 interface AddUserSheetProps {
   onAddUser: (newUser: Omit<UserInterface, "id">) => void;
 }
@@ -111,9 +111,18 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, checked } = e.target;
+
+    let maskedValue = value;
+
+    if (id === "cpf") {
+      maskedValue = maskCPF(value);
+    } else if (id === "rg") {
+      maskedValue = maskRG(value);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [id]: type === "checkbox" ? checked : value,
+      [id]: type === "checkbox" ? checked : maskedValue,
     }));
   };
 
@@ -130,12 +139,12 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
           </span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[800px] p-10 flex flex-col h-full">
+      <SheetContent className="sm:max-w-[800px] w-full p-4 sm:p-10 flex flex-col h-full">
         <SheetHeader className="px-0 flex items-start h-10">
-          <SheetTitle className="font-serif font-normal text-2xl leading-[1.5] tracking-tighter text-[#18181B] text-left w-full">
+          <SheetTitle className="font-serif font-normal text-xl sm:text-2xl leading-[1.5] tracking-tighter text-[#18181B] text-left w-full">
             Adicionar usuário
           </SheetTitle>
-          <div className="absolute right-10 top-14 flex items-center h-10">
+          <div className="absolute right-4 sm:right-10 top-4 sm:top-14 flex items-center h-10">
             <button
               onClick={() => setOpen(false)}
               className="p-2 rounded-full border border-[#E4E4E7] hover:bg-gray-100 transition-colors w-10 h-10 flex items-center justify-center"
@@ -216,8 +225,9 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
               WhatsApp
             </Label>
           </div>
-          <div className="flex gap-4 mb-5">
-            <div className="flex-1">
+
+          <div className="flex flex-col sm:flex-row gap-4 mb-5">
+            <div className="flex-1 mb-4 sm:mb-0">
               <Label
                 htmlFor="cpf"
                 className="font-sans font-medium text-sm leading-[100%] tracking-[-0.4px] text-[#18181B] mb-2"
@@ -229,6 +239,7 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
                 placeholder="Informe o CPF"
                 value={formData.cpf}
                 onChange={handleChange}
+                maxLength={14}
                 className="w-full h-10 rounded-md py-2 px-3 gap-1 opacity-50 border border-[#E4E4E7] font-sans font-normal text-sm leading-5 tracking-[-0.4px] text-[#71717A]"
               />
             </div>
@@ -244,12 +255,13 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
                 placeholder="Informe o RG"
                 value={formData.rg}
                 onChange={handleChange}
+                maxLength={12}
                 className="w-full h-10 rounded-md py-2 px-3 gap-1 opacity-50 border border-[#E4E4E7] font-sans font-normal text-sm leading-5 tracking-[-0.4px] text-[#71717A]"
               />
             </div>
           </div>
 
-          <div className="w-full h-[66px] flex items-center justify-between rounded-md border border-[#E4E4E7] p-4 gap-4 bg-[#FAFAFA] mb-5">
+          <div className="w-full h-auto sm:h-[66px] flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-md border border-[#E4E4E7] p-4 gap-4 bg-[#FAFAFA] mb-5">
             <div className="space-y-1">
               <p className="text-sm font-sans font-medium leading-[100%] tracking-[-0.4px] text-[#09090B]">
                 Status
@@ -258,15 +270,19 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
                 Defina se o usuário estará ativo ao ser adicionado.
               </p>
             </div>
-            <Switch checked={status} onCheckedChange={setStatus} />
+            <Switch
+              checked={status}
+              onCheckedChange={setStatus}
+              className="mt-2 sm:mt-0"
+            />
           </div>
 
-          <div className="flex justify-end gap-2 pt-4 mt-auto">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-4 mt-auto">
             <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              className="h-10 w-[89px] rounded-full gap-2 py-2 px-4 border border-[#E4E4E7] bg-white hover:bg-gray-50"
+              className="h-10 w-full sm:w-[89px] rounded-full gap-2 py-2 px-4 border border-[#E4E4E7] bg-white hover:bg-gray-50"
             >
               <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-[#18181B]">
                 Cancelar
@@ -274,7 +290,7 @@ export function AddUserSheet({ onAddUser }: AddUserSheetProps) {
             </Button>
             <Button
               type="submit"
-              className="h-10 w-[93px] rounded-full gap-2 py-2 px-4 bg-[#102822] hover:bg-[#102822]/90"
+              className="h-10 w-full sm:w-[93px] rounded-full gap-2 py-2 px-4 bg-[#102822] hover:bg-[#102822]/90 mb-2 sm:mb-0"
             >
               <span className="font-sans font-medium text-sm leading-5 tracking-[-0.4px] text-[#FAFAFA]">
                 Adicionar

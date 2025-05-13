@@ -19,7 +19,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { HeadphonesIcon, DashboardIcon } from "@/assets/icons";
 
-// Menu items
 const menuItems = [
   {
     title: "Dashboard",
@@ -38,7 +37,6 @@ const menuItems = [
   },
 ];
 
-// Settings items
 const settingsItems = [
   {
     title: "Geral",
@@ -47,7 +45,6 @@ const settingsItems = [
   },
 ];
 
-// Função para gerar iniciais do nome
 const getInitials = (name: string) => {
   const names = name.split(" ");
   const firstName = names[0];
@@ -65,8 +62,6 @@ export function AppSidebar() {
       <SidebarContent>
         <div className="border-gray-200 dark:border-gray-800">
           <div className="flex items-center justify-between p-[1.45rem]">
-            {" "}
-            {/* 20px */}
             <Button
               size="default"
               variant="default"
@@ -79,38 +74,26 @@ export function AppSidebar() {
           </div>
           <Separator />
           <div className="flex items-center justify-between p-[1rem]">
-            {" "}
-            {/* 16px */}
             <div className="flex items-center gap-[0.5rem]">
-              {" "}
-              {/* 8px */}
               <div className="flex items-center justify-center w-[2rem] h-[2rem] bg-[#F4F4F5] dark:bg-gray-800 rounded-[0.5rem]">
-                {" "}
-                {/* 8px */}
                 <span className="font-sans font-semibold text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#102822]">
                   {userInitials}
                 </span>
               </div>
               <span className="font-medium font-sans text-[1rem]">
-                {" "}
-                {/* 16px */}
                 {userName}
               </span>
             </div>
             <ChevronsUpDown className="w-[1rem] h-[1rem] text-[#71717A]" />{" "}
-            {/* 16px */}
           </div>
         </div>
 
-        {/* Grupo: Menu */}
         <SidebarGroup className="p-[1rem]">
-          {" "}
           <SidebarGroupLabel className="w-[12rem] h-[1rem] font-sans font-normal text-[0.75rem] leading-[1rem] tracking-[-0.025em] text-[#3F3F46] mb-[0.375rem]">
             Menu
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="flex flex-col gap-[0.375rem]">
-              {" "}
               {menuItems.map((item) => {
                 const isActive = location.pathname.startsWith(item.url);
                 return (
@@ -148,17 +131,12 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Grupo: Configurações */}
         <SidebarGroup className="p-[1rem]">
-          {" "}
-          {/* 16px */}
           <SidebarGroupLabel className="w-[12rem] h-[1rem] font-sans font-normal text-[0.75rem] leading-[1rem] tracking-[-0.025em] text-[#3F3F46] mb-[0.375rem]">
             Configurações
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="flex flex-col gap-[0.375rem]">
-              {" "}
-              {/* 6px */}
               {settingsItems.map((item) => {
                 const isActive = location.pathname.startsWith(item.url);
                 return (
@@ -196,10 +174,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Rodapé: Ajuda */}
         <div className="absolute bottom-0 left-0 right-0 mx-[1rem] mb-[1rem]">
-          {" "}
-          {/* 16px margin */}
           <div className="flex items-center justify-between cursor-pointer">
             <span className="font-sans font-normal text-[0.875rem] leading-[1.25rem] tracking-[-0.025em] text-[#102822]">
               Precisa de ajuda?
