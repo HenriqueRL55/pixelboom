@@ -13,7 +13,6 @@ interface UserListItemProps {
 export function UserListItem({
   user,
   onEditUser,
-  onDeleteUser,
 }: UserListItemProps) {
   return (
     <Card>
@@ -59,7 +58,6 @@ export function UserListItem({
           <EditUserSheet
             user={user}
             onEditUser={onEditUser}
-            onDeleteUser={onDeleteUser}
           />
         </div>
       </CardContent>
