@@ -32,7 +32,7 @@ const initialUsers: UserInterface[] = [
     telefone: "(11) 99999-9999",
     whatsapp: true,
     cpf: "123.456.789-00",
-    rg: "12.345.678-9"
+    rg: "12.345.678-9",
   },
   {
     id: "2",
@@ -48,8 +48,8 @@ const initialUsers: UserInterface[] = [
     telefone: "(11) 98888-8888",
     whatsapp: false,
     cpf: "987.654.321-00",
-    rg: "98.765.432-1"
-  }
+    rg: "98.765.432-1",
+  },
 ];
 
 export default function UsersPage() {
@@ -58,7 +58,7 @@ export default function UsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const handleAddUser = (newUser: Omit<UserInterface, 'id'>) => {
+  const handleAddUser = (newUser: Omit<UserInterface, "id">) => {
     const userWithId: UserInterface = {
       ...newUser,
       id: Date.now().toString(),
@@ -67,34 +67,79 @@ export default function UsersPage() {
   };
 
   const handleEditUser = (updatedUser: UserInterface) => {
-    setUsers(users.map(user => 
-      user.id === updatedUser.id ? updatedUser : user
-    ));
+    setUsers(
+      users.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+    );
   };
 
   const handleDeleteUser = (userId: string) => {
     const confirmDelete = () => {
-      setUsers(users.filter(user => user.id !== userId));
-
+      setUsers(users.filter((user) => user.id !== userId));
       toast.success("Usuário excluído com sucesso!", {
         icon: null,
-        action: {
-          label: "Fechar",
-          onClick: () => {},
+        style: {
+          width: "364px",
+          height: "88px",
+          borderRadius: "8px",
+          padding: "12px 16px",
+          gap: "16px",
+          border: "1px solid #E4E4E7",
+          background: "#FFFFFF",
+          boxShadow: "0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.10)",
+          fontFamily: "var(--font-sans)",
+          fontWeight: "normal",
+          fontSize: "14px",
+          lineHeight: "20px",
+          letterSpacing: "-0.4px",
+          color: "#18181B"
         },
+        actionButtonStyle: {
+          width: "76px",
+          height: "40px",
+          borderRadius: "9999px",
+          padding: "8px 16px",
+          gap: "8px",
+          border: "1px solid #E4E4E7",
+          background: "#FFFFFF",
+          fontFamily: "var(--font-sans)",
+          fontWeight: "500",
+          fontSize: "14px",
+          lineHeight: "20px",
+          letterSpacing: "-0.4px",
+          color: "#18181B"
+        }
       });
     };
-
+  
     toast.custom((t) => (
-      <div className="bg-white rounded-lg shadow-lg p-4 border">
+      <div 
+        className="bg-white rounded-md p-6 border border-[#E4E4E7] w-[364px]"
+        style={{
+          boxShadow: "0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.10)"
+        }}
+      >
         <div className="flex flex-col space-y-4">
-          <p className="font-medium">Confirmar exclusão</p>
-          <p>Tem certeza que deseja excluir este usuário?</p>
+          <p className="font-sans font-medium text-sm leading-[100%] tracking-[-0.4px] text-[#18181B]">
+            Confirmar exclusão
+          </p>
+          <p className="font-sans font-normal text-sm leading-5 tracking-[-0.4px] text-[#71717A]">
+            Tem certeza que deseja excluir este usuário?
+          </p>
           <div className="flex justify-end space-x-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => toast.dismiss(t)}
+              className="h-10 rounded-full gap-2 py-2 px-4 border border-[#E4E4E7]"
+              style={{
+                width: "89px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: "500",
+                fontSize: "14px",
+                lineHeight: "20px",
+                letterSpacing: "-0.4px",
+                color: "#18181B"
+              }}
             >
               Cancelar
             </Button>
@@ -104,6 +149,15 @@ export default function UsersPage() {
               onClick={() => {
                 confirmDelete();
                 toast.dismiss(t);
+              }}
+              className="h-10 rounded-full gap-2 py-2 px-4"
+              style={{
+                width: "89px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: "500",
+                fontSize: "14px",
+                lineHeight: "20px",
+                letterSpacing: "-0.4px"
               }}
             >
               Excluir
@@ -169,50 +223,56 @@ export default function UsersPage() {
     return pages;
   };
 
-  const handlePageChange = (page: number | string) => {
-    if (typeof page === "number") {
-      setCurrentPage(page);
-    }
-  };
-
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1);
-  };
-
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-[2.5rem] space-y-[1.25rem]">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Usuários</h1>
+        <h1 className="font-serif font-normal text-[1.875rem] leading-[2.25rem] tracking-tighter text-[#18181B]">
+          Usuários
+        </h1>
         <AddUserSheet onAddUser={handleAddUser} />
       </div>
 
       {/* Métricas */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground">Usuários</p>
-            <p className="text-2xl font-semibold">{users.length}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1.25rem]">
+        <Card className="bg-[#FAFAFA] rounded-lg">
+          <CardContent className="p-[1.5rem] flex flex-col gap-[0.5rem]">
+            <p className="font-sans font-normal text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#71717A]">
+              Usuários
+            </p>
+            <p className="font-serif font-normal text-[1.875rem] leading-[2.25rem] tracking-tighter text-[#18181B]">
+              {users.length}
+            </p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground">Tempo de sessão</p>
-            <p className="text-2xl font-semibold">31m 20s</p>
+
+        <Card className="bg-[#FAFAFA] rounded-lg">
+          <CardContent className="p-[1.5rem] flex flex-col gap-[0.5rem]">
+            <p className="font-sans font-normal text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#71717A]">
+              Tempo de sessão
+            </p>
+            <p className="font-serif font-normal text-[1.875rem] leading-[2.25rem] tracking-tighter text-[#18181B]">
+              31m 20s
+            </p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground">Ativos</p>
-            <p className="text-2xl font-semibold">
+
+        <Card className="bg-[#FAFAFA] rounded-lg">
+          <CardContent className="p-[1.5rem] flex flex-col gap-[0.5rem]">
+            <p className="font-sans font-normal text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#71717A]">
+              Ativos
+            </p>
+            <p className="font-serif font-normal text-[1.875rem] leading-[2.25rem] tracking-tighter text-[#18181B]">
               {users.filter((u) => u.status === "Ativo").length}
             </p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground">Inativos</p>
-            <p className="text-2xl font-semibold">
+
+        <Card className="bg-[#FAFAFA] rounded-lg">
+          <CardContent className="p-[1.5rem] flex flex-col gap-[0.5rem]">
+            <p className="font-sans font-normal text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#71717A]">
+              Inativos
+            </p>
+            <p className="font-serif font-normal text-[1.875rem] leading-[2.25rem] tracking-tighter text-[#18181B]">
               {users.filter((u) => u.status === "Inativo").length}
             </p>
           </CardContent>
@@ -220,14 +280,14 @@ export default function UsersPage() {
       </div>
 
       {/* Busca e filtros */}
-      <div className="flex gap-2 items-center w-full">
+      <div className="flex gap-[0.5rem] items-center w-full mt-[1.25rem] mb-[1.25rem]">
         <div className="relative flex-1 w-full">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Search className="w-4 h-4 text-gray-400" />
+          <div className="absolute inset-y-0 left-0 flex items-center pl-[0.75rem] pointer-events-none">
+            <Search className="w-[1rem] h-[1rem] text-[#71717A]" />
           </div>
           <Input
             placeholder="Buscar..."
-            className="pl-10"
+            className="pl-[2.5rem] font-sans font-normal text-[0.875rem] leading-[1.25rem] tracking-[-0.025em] text-[#71717A]"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -235,60 +295,73 @@ export default function UsersPage() {
             }}
           />
         </div>
-        <Button variant="outline" size="icon" className="rounded-full">
-          <ListFilter className="w-4 h-4 text-gray-400" />
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full h-[2.5rem] w-[2.5rem] p-[0.5rem] border border-[#E4E4E7] bg-white"
+        >
+          <ListFilter className="w-[1rem] h-[1rem] text-[#18181B]" />
         </Button>
       </div>
 
       {/* Lista de usuários */}
-      <div className="space-y-2 overflow-y-auto max-h-[400px] pr-2">
+      <div className="space-y-[0.5rem] overflow-y-auto max-h-[25rem] pr-[0.5rem]">
         {currentUsers.map((user) => (
           <Card key={user.id}>
-            <CardContent className="p-1.5 flex items-center justify-between">
-              <div className="flex pl-5 gap-4 items-center">
-                <div className="bg-muted rounded-full h-10 w-10 flex items-center justify-center font-semibold">
+            <CardContent className="p-[0.375rem] flex items-center justify-between">
+              <div className="flex pl-[1.25rem] gap-[1rem] items-center">
+                {/* Círculo com iniciais */}
+                <div className="bg-[#F4F4F5] rounded-full h-[3.5rem] w-[3.5rem] flex items-center justify-center font-sans font-medium text-[1rem] leading-[1] tracking-[-0.025em] text-[#102822]">
                   {user.initials}
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium">{user.name}</p>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <UserIcon className="w-3 h-3" />
-                      <span>
+
+                <div className="flex flex-col gap-[0.5rem]">
+                  {" "}
+                  {/* Adicionado gap vertical de 8px */}
+                  {/* Nome do usuário */}
+                  <div className="flex items-center gap-[0.5rem]">
+                    <p className="font-sans font-medium text-[0.875rem] leading-[1.25rem] tracking-[-0.025em] text-[#18181B] align-middle">
+                      {user.name}
+                    </p>
+                    <div className="flex items-center gap-[0.25rem] text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#71717A]">
+                      <UserIcon className="w-[0.75rem] h-[0.75rem] text-[#A1A1AA]" />
+                      <span className="align-middle">
                         {user.age} anos, {user.gender}
                       </span>
                     </div>
                   </div>
-                  <div className="text-sm text-muted-foreground flex items-center">
-                    <div className="flex items-center gap-1 pl-2 ml-2 first:border-0 first:pl-0 first:ml-0">
-                      <Calendar className="w-3 h-3" />
-                      <span>{user.date}</span>
+                  {/* Informações adicionais */}
+                  <div className="flex items-center text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#71717A]">
+                    <div className="flex items-center gap-[0.25rem] pl-[0.5rem] ml-[0.5rem] first:border-0 first:pl-0 first:ml-0">
+                      <Calendar className="w-[0.75rem] h-[0.75rem] text-[#A1A1AA]" />
+                      <span className="align-middle">{user.date}</span>
                     </div>
-                    <div className="flex items-center gap-1 pl-2 ml-2">
-                      <Clock className="w-3 h-3" />
-                      <span>{user.sessionTime}</span>
+                    <div className="flex items-center gap-[0.25rem] pl-[0.5rem] ml-[0.5rem]">
+                      <Clock className="w-[0.75rem] h-[0.75rem] text-[#A1A1AA]" />
+                      <span className="align-middle">{user.sessionTime}</span>
                     </div>
-                    <div className="flex items-center gap-1 pl-2 ml-2">
-                      <Tag className="w-3 h-3" />
-                      <span>{user.type}</span>
+                    <div className="flex items-center gap-[0.25rem] pl-[0.5rem] ml-[0.5rem]">
+                      <Tag className="w-[0.75rem] h-[0.75rem] text-[#A1A1AA]" />
+                      <span className="align-middle">{user.type}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex gap-2 items-center">
-                <Badge variant={user.status === "Ativo" ? "default" : "secondary"}>
+
+              {/* Ações */}
+              <div className="flex gap-[0.5rem] items-center">
+                <Badge
+                  variant={user.status === "Ativo" ? "default" : "secondary"}
+                >
                   {user.status}
                 </Badge>
-                <EditUserSheet 
-                  user={user} 
-                  onEditUser={handleEditUser} 
-                />
-                <Button 
-                  variant="ghost" 
+                <EditUserSheet user={user} onEditUser={handleEditUser} />
+                <Button
+                  variant="ghost"
                   size="icon"
                   onClick={() => handleDeleteUser(user.id)}
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-[1rem] h-[1rem]" />
                 </Button>
               </div>
             </CardContent>
@@ -297,11 +370,12 @@ export default function UsersPage() {
       </div>
 
       {/* Paginação */}
-      <div className="flex justify-between items-center pt-4 text-sm text-muted-foreground">
+      <div className="flex justify-between items-center pt-[1rem] text-sm text-muted-foreground">
         <div>
-          {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems} itens
+          {startIndex + 1}-{Math.min(endIndex, totalItems)} de {totalItems}{" "}
+          itens
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[0.5rem]">
           <Button
             variant="ghost"
             size="sm"
@@ -310,19 +384,19 @@ export default function UsersPage() {
           >
             Anterior
           </Button>
-          <div className="flex gap-1">
+          <div className="flex gap-[0.25rem]">
             {getPageNumbers().map((page, index) =>
               typeof page === "number" ? (
                 <Button
                   key={index}
                   size="sm"
                   variant={currentPage === page ? "outline" : "ghost"}
-                  onClick={() => handlePageChange(page)}
+                  onClick={() => setCurrentPage(page)}
                 >
                   {page}
                 </Button>
               ) : (
-                <span key={index} className="px-2 flex items-center">
+                <span key={index} className="px-[0.5rem] flex items-center">
                   ...
                 </span>
               )
@@ -337,12 +411,15 @@ export default function UsersPage() {
             Próxima
           </Button>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-[0.25rem]">
           <span>Itens por página</span>
           <select
-            className="border rounded px-2 py-1 text-sm"
+            className="border rounded px-[0.5rem] py-[0.25rem] text-sm"
             value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
+            onChange={(e) => {
+              setItemsPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
           >
             <option value={5}>5</option>
             <option value={10}>10</option>

@@ -1,10 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import {
-  Home,
   Settings,
   ChevronsUpDown,
-  Headphones,
   User,
   FileCheck,
 } from "lucide-react";
@@ -19,13 +17,14 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { HeadphonesIcon, DashboardIcon } from "@/assets/icons";
 
 // Menu items
 const menuItems = [
   {
     title: "Dashboard",
     url: "/dashboard",
-    icon: Home,
+    icon: DashboardIcon,
   },
   {
     title: "Usuários",
@@ -65,52 +64,80 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <div className="border-gray-200 dark:border-gray-800">
-          <div className="flex items-center justify-between p-5">
+          <div className="flex items-center justify-between p-[1.45rem]">
+            {" "}
+            {/* 20px */}
             <Button
               size="default"
               variant="default"
-              className="justify-start gap-2"
+              className="flex items-center justify-center bg-black rounded-[0.5rem] w-[6rem] h-[2rem] p-0"
             >
-              <div className="flex items-center gap-2">
-                <span className="font-medium font-sans">Logo</span>
-              </div>
+              <span className="text-white font-inter font-bold text-[0.75rem] leading-[1] tracking-[-0.02em]">
+                Logo
+              </span>
             </Button>
           </div>
           <Separator />
-          <div className="flex items-center justify-between p-4">
-            <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full font-medium">
-                {userInitials}
+          <div className="flex items-center justify-between p-[1rem]">
+            {" "}
+            {/* 16px */}
+            <div className="flex items-center gap-[0.5rem]">
+              {" "}
+              {/* 8px */}
+              <div className="flex items-center justify-center w-[2rem] h-[2rem] bg-[#F4F4F5] dark:bg-gray-800 rounded-[0.5rem]">
+                {" "}
+                {/* 8px */}
+                <span className="font-sans font-semibold text-[0.75rem] leading-[1] tracking-[-0.025em] text-[#102822]">
+                  {userInitials}
+                </span>
               </div>
-              <span className="font-medium font-sans">{userName}</span>
+              <span className="font-medium font-sans text-[1rem]">
+                {" "}
+                {/* 16px */}
+                {userName}
+              </span>
             </div>
-            <ChevronsUpDown className="w-4 h-4 text-gray-500" />
+            <ChevronsUpDown className="w-[1rem] h-[1rem] text-[#71717A]" />{" "}
+            {/* 16px */}
           </div>
         </div>
 
         {/* Grupo: Menu */}
-        <SidebarGroup className="p-4">
-          <SidebarGroupLabel className="font-sans">Menu</SidebarGroupLabel>
+        <SidebarGroup className="p-[1rem]">
+          {" "}
+          {/* 16px */}
+          <SidebarGroupLabel className="w-[12rem] h-[1rem] font-sans font-normal text-[0.75rem] leading-[1rem] tracking-[-0.025em] text-[#3F3F46] mb-[0.375rem]">
+            Menu
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="flex flex-col gap-[0.375rem]">
+              {" "}
+              {/* 6px */}
               {menuItems.map((item) => {
                 const isActive = location.pathname.startsWith(item.url);
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      className={
-                        isActive
-                          ? "bg-emerald-950 rounded-full"
-                          : "bg-transparent"
-                      }
+                      className={isActive ? "w-[13rem] h-[2.5rem]" : "w-full"}
                     >
-                      <Link to={item.url} className="flex items-center gap-2 px-4 py-2 no-underline">
+                      <Link
+                        to={item.url}
+                        className={`flex items-center no-underline ${
+                          isActive
+                            ? "bg-[#102822] rounded-full gap-[0.375rem] py-[0.5rem] px-[0.75rem]"
+                            : "bg-transparent gap-[0.375rem] px-[1rem] py-[0.5rem]"
+                        }`}
+                      >
                         <item.icon
-                          className={`w-5 h-5 ${isActive ? "text-white" : "text-zinc-500"}`}
+                          className={`w-[1.25rem] h-[1.25rem] ${
+                            isActive ? "text-[#F4F4F5]" : "text-[#71717A]"
+                          }`}
                         />
                         <span
-                          className={`font-sans font-medium text-sm leading-5 tracking-[-0.4px] ${isActive ? "text-white" : "text-zinc-500"}`}
+                          className={`font-sans font-medium text-[0.875rem] leading-[1.25rem] tracking-[-0.025em] ${
+                            isActive ? "text-[#F4F4F5]" : "text-[#71717A]"
+                          }`}
                         >
                           {item.title}
                         </span>
@@ -123,31 +150,42 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-            
-
         {/* Grupo: Configurações */}
-        <SidebarGroup className="p-4">
-          <SidebarGroupLabel className="font-sans">Configurações</SidebarGroupLabel>
+        <SidebarGroup className="p-[1rem]">
+          {" "}
+          {/* 16px */}
+          <SidebarGroupLabel className="w-[12rem] h-[1rem] font-sans font-normal text-[0.75rem] leading-[1rem] tracking-[-0.025em] text-[#3F3F46] mb-[0.375rem]">
+            Configurações
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="flex flex-col gap-[0.375rem]">
+              {" "}
+              {/* 6px */}
               {settingsItems.map((item) => {
                 const isActive = location.pathname.startsWith(item.url);
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      className={
-                        isActive
-                          ? "bg-emerald-950 rounded-full"
-                          : "bg-transparent"
-                      }
+                      className={isActive ? "w-[13rem] h-[2.5rem]" : "w-full"}
                     >
-                      <Link to={item.url} className="flex items-center gap-2 px-4 py-2 no-underline">
+                      <Link
+                        to={item.url}
+                        className={`flex items-center no-underline ${
+                          isActive
+                            ? "bg-[#102822] rounded-full gap-[0.375rem] py-[0.5rem] px-[0.75rem]"
+                            : "bg-transparent gap-[0.375rem] px-[1rem] py-[0.5rem]"
+                        }`}
+                      >
                         <item.icon
-                          className={`w-5 h-5 ${isActive ? "text-white" : "text-zinc-500"}`}
+                          className={`w-[1.25rem] h-[1.25rem] ${
+                            isActive ? "text-[#F4F4F5]" : "text-[#71717A]"
+                          }`}
                         />
                         <span
-                          className={`font-sans font-medium text-sm leading-5 tracking-[-0.4px] ${isActive ? "text-white" : "text-zinc-500"}`}
+                          className={`font-sans font-medium text-[0.875rem] leading-[1.25rem] tracking-[-0.025em] ${
+                            isActive ? "text-[#F4F4F5]" : "text-[#71717A]"
+                          }`}
                         >
                           {item.title}
                         </span>
@@ -161,10 +199,14 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Rodapé: Ajuda */}
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="flex items-center justify-between text-sm text-zinc-500 cursor-pointer">
-            <span>Precisa de ajuda?</span>
-            <Headphones className="w-4 h-4" />
+        <div className="absolute bottom-0 left-0 right-0 mx-[1rem] mb-[1rem]">
+          {" "}
+          {/* 16px margin */}
+          <div className="flex items-center justify-between cursor-pointer">
+            <span className="font-sans font-normal text-[0.875rem] leading-[1.25rem] tracking-[-0.025em] text-[#102822]">
+              Precisa de ajuda?
+            </span>
+            <HeadphonesIcon className="w-[1rem] h-[1rem] text-[#3F3F46]" />
           </div>
         </div>
       </SidebarContent>
